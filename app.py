@@ -8,7 +8,6 @@ from services.month_decoder import month_decoder
 
 # TO DO
 # Déployer
-# Bouton refresh
 
 logging.basicConfig(level=logging.INFO,
                     format='%(name)s - %(levelname)s - %(message)s')
