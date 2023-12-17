@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 import gradio as gr
 import json
 import logging
@@ -11,6 +12,8 @@ from services.month_decoder import month_decoder
 
 logging.basicConfig(level=logging.INFO,
                     format='%(name)s - %(levelname)s - %(message)s')
+
+load_dotenv()
 
 # Delete pictures in tmp_photos
 logging.info('Deleting pictures in tmp_photos')
@@ -35,7 +38,5 @@ with gr.Blocks() as iface:
             gr.Markdown(f"## {month_decoder(picture['month'])} "
                         f"{picture['year']}")
             gr.Image(f'tmp_photos/{picture["picture"]}')
-        refresh_button = gr.Button("Changer les photos")
-        refresh_button.click(pictures_to_display)
 
 iface.launch()

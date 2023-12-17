@@ -1,10 +1,21 @@
 import json
 import random as rd
+import os
 from services.create_api_connection import create_api_connection
 
 
 def choose_random_picture(service, all_pictures):
-    """Choose a random picture from the pictures folder."""
+    """
+    Choose a random picture from the pictures folder.
+
+    Args:
+        service: The Google Drive service object.
+        all_pictures: A list of all pictures in the folder.
+
+    Returns:
+        A tuple containing the name of the chosen picture, the month folder
+        name, and the year folder name.
+    """
     chosen_picture = rd.choice(all_pictures)
 
     # Get parent folders name of chosen picture on two levels
@@ -34,7 +45,8 @@ def get_all_pictures(service):
         service: The service object used to interact with the API.
 
     Returns:
-        A list of dictionaries representing the pictures, each containing the following keys:
+        A list of dictionaries representing the pictures, each containing the
+        following keys:
         - id: The ID of the picture file.
         - name: The name of the picture file.
         - mimeType: The MIME type of the picture file.
@@ -73,7 +85,7 @@ def pictures_to_display():
     service = create_api_connection()
     all_pictures = get_all_pictures(service)
     picture_info = []
-    for _ in range(10):
+    for _ in range(int(os.getenv('NUMBER_OF_PICTURES'))):
         picture, month, year = choose_random_picture(service, all_pictures)
         # Appends the info to a json file
         picture_info.append({'picture': picture, 'month': month,
