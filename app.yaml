@@ -1,2 +1,4 @@
 runtime: python310
 entrypoint: pip install -r requirements.txt && python app.py
+env_variables:
+  TMP_DIR: "/tmp"

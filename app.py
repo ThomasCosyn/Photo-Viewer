@@ -14,10 +14,12 @@ logging.basicConfig(level=logging.INFO,
 
 load_dotenv()
 
+base_dir = os.getenv('TMP_DIR', '.')
+
 # Delete pictures in tmp_photos
 logging.info('Deleting pictures in tmp_photos')
 for filename in os.listdir('tmp_photos'):
-    os.remove(f'tmp_photos/{filename}')
+    os.remove(f'{base_dir}/tmp_photos/{filename}')
 logging.info('Pictures deleted')
 
 # Writes picture to tmp_photos folder
@@ -26,7 +28,7 @@ pictures_to_display()
 logging.info('Random picture written to tmp_photos folder')
 
 # Loading pictures metadata to display
-picture_info = json.load(open('tmp_photos/picture_info.json'))
+picture_info = json.load(open(f'{base_dir}/tmp_photos/picture_info.json'))
 
 # Creates a gradio app that displays the pictures stored in tmp_photos
 with gr.Blocks() as iface:
@@ -36,6 +38,6 @@ with gr.Blocks() as iface:
         for picture in picture_info:
             gr.Markdown(f"## {month_decoder(picture['month'])} "
                         f"{picture['year']}")
-            gr.Image(f'tmp_photos/{picture["picture"]}')
+            gr.Image(f'{base_dir}/tmp_photos/{picture["picture"]}')
 
 iface.launch()

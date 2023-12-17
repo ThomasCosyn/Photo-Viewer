@@ -4,6 +4,9 @@ import os
 from services.create_api_connection import create_api_connection
 
 
+base_dir = os.getenv('TMP_DIR', '.')
+
+
 def choose_random_picture(service, all_pictures):
     """
     Choose a random picture from the pictures folder.
@@ -31,7 +34,7 @@ def choose_random_picture(service, all_pictures):
 
     # Downloads chosen picture into tmp_photos folder
     request = service.files().get_media(fileId=chosen_picture['id'])
-    with open(f"tmp_photos/{chosen_picture['name']}", "wb") as fh:
+    with open(f"{base_dir}/tmp_photos/{chosen_picture['name']}", "wb") as fh:
         fh.write(request.execute())
 
     return chosen_picture["name"], month, year
@@ -90,5 +93,5 @@ def pictures_to_display():
         # Appends the info to a json file
         picture_info.append({'picture': picture, 'month': month,
                              'year': year})
-    with open('tmp_photos/picture_info.json', 'w') as f:
+    with open(f'{base_dir}/tmp_photos/picture_info.json', 'w') as f:
         json.dump(picture_info, f)
