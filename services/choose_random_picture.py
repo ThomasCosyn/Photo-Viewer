@@ -1,15 +1,10 @@
+import json
 import random as rd
 from services.create_api_connection import create_api_connection
 
 
-
-
-
-def choose_random_picture(all_pictures):
+def choose_random_picture(service, all_pictures):
     """Choose a random picture from the pictures folder."""
-    service = create_api_connection()
-    all_pictures = get_all_pictures(service)
-
     chosen_picture = rd.choice(all_pictures)
 
     # Get parent folders name of chosen picture on two levels
@@ -32,7 +27,19 @@ def choose_random_picture(all_pictures):
 
 
 def get_all_pictures(service):
+    """
+    Retrieves all pictures from a given service.
 
+    Args:
+        service: The service object used to interact with the API.
+
+    Returns:
+        A list of dictionaries representing the pictures, each containing the following keys:
+        - id: The ID of the picture file.
+        - name: The name of the picture file.
+        - mimeType: The MIME type of the picture file.
+        - parents: The parent folders of the picture file.
+    """
     all_pictures = []
     page_token = None
 
@@ -56,11 +63,20 @@ def get_all_pictures(service):
 
 
 def pictures_to_display():
+    """
+    Retrieves a list of random pictures and their corresponding month and year,
+    and saves the information to a JSON file.
+
+    Returns:
+        None
+    """
     service = create_api_connection()
     all_pictures = get_all_pictures(service)
+    picture_info = []
     for _ in range(10):
-        picture, month, year = choose_random_picture(all_pictures)
-        # Writes the info to a json file
-        with open('tmp_photos/picture_info.json', 'w') as f:
-            f.write('{{"picture": "{}", "month": "{}", "year": "{}"}}'
-                    .format(picture, month, year))
+        picture, month, year = choose_random_picture(service, all_pictures)
+        # Appends the info to a json file
+        picture_info.append({'picture': picture, 'month': month,
+                             'year': year})
+    with open('tmp_photos/picture_info.json', 'w') as f:
+        json.dump(picture_info, f)

@@ -6,8 +6,8 @@ from services.choose_random_picture import pictures_to_display
 from services.month_decoder import month_decoder
 
 # TO DO
-# Afficher plusieurs photos
 # Déployer
+# Bouton refresh
 
 logging.basicConfig(level=logging.INFO,
                     format='%(name)s - %(levelname)s - %(message)s')
@@ -28,11 +28,14 @@ picture_info = json.load(open('tmp_photos/picture_info.json'))
 
 # Creates a gradio app that displays the pictures stored in tmp_photos
 with gr.Blocks() as iface:
-    with gr.Row():
+    with gr.Column():
         gr.Markdown("# Album photo dynamique")
     with gr.Column():
-        gr.Image(f'tmp_photos/{picture_info["picture"]}')
-        gr.Markdown(f"## {month_decoder(picture_info['month'])} "
-                    f"{picture_info['year']}")
+        for picture in picture_info:
+            gr.Markdown(f"## {month_decoder(picture['month'])} "
+                        f"{picture['year']}")
+            gr.Image(f'tmp_photos/{picture["picture"]}')
+        refresh_button = gr.Button("Changer les photos")
+        refresh_button.click(pictures_to_display)
 
 iface.launch()
