@@ -15,12 +15,14 @@ logging.basicConfig(level=logging.INFO,
 load_dotenv()
 
 base_dir = os.getenv('TMP_DIR', '.')
+logging.info(f'Base tmp dir is {base_dir}')
 
 # Delete pictures in tmp_photos
 logging.info('Deleting pictures in tmp_photos')
-for filename in os.listdir('tmp_photos'):
-    os.remove(f'{base_dir}/tmp_photos/{filename}')
-logging.info('Pictures deleted')
+if os.path.exists(f'{base_dir}/tmp_photos'):
+    for filename in os.listdir(f'{base_dir}/tmp_photos'):
+        os.remove(f'{base_dir}/tmp_photos/{filename}')
+    logging.info('Pictures deleted')
 
 # Writes picture to tmp_photos folder
 logging.info('Writing random picture to tmp_photos folder')
