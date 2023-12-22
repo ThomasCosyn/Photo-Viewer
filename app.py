@@ -33,9 +33,12 @@ logging.info('Random picture written to tmp_photos folder')
 picture_info = json.load(open(f'{base_dir}/tmp_photos/picture_info.json'))
 
 # Creates a gradio app that displays the pictures stored in tmp_photos
-with gr.Blocks() as iface:
+with gr.Blocks(
+    analytics_enabled=False,
+    css="footer {visibility: hidden}"
+) as iface:
     with gr.Column():
-        gr.Markdown("# Album photo dynamique")
+        gr.Markdown("# Mémoire vive\n#### Chaque jour, 12 photos aléatoires seront affichées. Ce ne seront pas forcément des belles photos, mais simplement des moments de ma vie dont j'ai envie de me souvenir et que je souhaite vous partager.")
     with gr.Column():
         for picture in picture_info:
             gr.Markdown(f"## {month_decoder(picture['month'])} "
