@@ -1,4 +1,5 @@
 import json
+import logging
 import random as rd
 import os
 from services.create_api_connection import create_api_connection
@@ -34,6 +35,9 @@ def choose_random_picture(service, all_pictures):
 
     # Downloads chosen picture into tmp_photos folder
     request = service.files().get_media(fileId=chosen_picture['id'])
+    if not os.path.exists(f"{base_dir}/tmp_photos"):
+        os.mkdir(f"{base_dir}/tmp_photos")
+    logging.info(f"Picking picture : {chosen_picture['name']}")
     with open(f"{base_dir}/tmp_photos/{chosen_picture['name']}", "wb") as fh:
         fh.write(request.execute())
 

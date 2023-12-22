@@ -38,11 +38,17 @@ with gr.Blocks(
     css="footer {visibility: hidden}"
 ) as iface:
     with gr.Column():
-        gr.Markdown("# Mémoire vive\n#### Chaque jour, 12 photos aléatoires seront affichées. Ce ne seront pas forcément des belles photos, mais simplement des moments de ma vie dont j'ai envie de me souvenir et que je souhaite vous partager.")
+        gr.Markdown("# Mémoire vive\n#### Chaque jour, 12 photos aléatoires \
+                    seront affichées. Ce ne seront pas forcément des belles \
+                    photos, mais simplement des moments de ma vie dont j'ai \
+                    envie de me souvenir et que je souhaite vous partager.")
     with gr.Column():
         for picture in picture_info:
             gr.Markdown(f"## {month_decoder(picture['month'])} "
                         f"{picture['year']}")
             gr.Image(f'{base_dir}/tmp_photos/{picture["picture"]}')
 
-iface.launch()
+iface.launch(server_name="0.0.0.0",
+             server_port=8080,
+             auth=("cosynlogergoossaert",
+                   "7&N4Q#EXoTz394z!"))
