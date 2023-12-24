@@ -67,8 +67,7 @@ def get_all_pictures(service):
             pageSize=1000,
             fields="nextPageToken, files(id, name, mimeType, parents)",
             q=("mimeType='image/jpeg' or "
-               "mimeType='image/png' or "
-               "mimeType='image/heic'"),
+               "mimeType='image/png'"),
             pageToken=page_token
         ).execute()
 
