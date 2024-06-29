@@ -14,7 +14,7 @@ def create_api_connection():
         service object.
     """
     scope = ['https://www.googleapis.com/auth/drive']
-    service_account_key = get_secret("service-account-key")  # './photo-viewer-407717-89d2741837ef.json'  # noqa
+    service_account_key = get_secret("service-account-key", "2")  # './photo-viewer-407717-89d2741837ef.json'  # noqa
     service_account_info = json.loads(service_account_key)
     credentials = service_account.Credentials.from_service_account_info(
         info=service_account_info,
