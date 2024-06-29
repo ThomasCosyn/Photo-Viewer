@@ -3,11 +3,10 @@ import gradio as gr
 import json
 import logging
 import os
-from services.choose_random_picture import pictures_to_display
+from services.choose_random_picture import (
+    pictures_to_display_from_blob
+)
 from services.month_decoder import month_decoder
-
-# TO DO
-# Déployer
 
 logging.basicConfig(level=logging.INFO,
                     format='%(name)s - %(levelname)s - %(message)s')
@@ -26,7 +25,8 @@ if os.path.exists(f'{base_dir}/tmp_photos'):
 
 # Writes picture to tmp_photos folder
 logging.info('Writing random picture to tmp_photos folder')
-pictures_to_display()
+# pictures_to_display()
+pictures_to_display_from_blob()
 logging.info('Random picture written to tmp_photos folder')
 
 # Loading pictures metadata to display

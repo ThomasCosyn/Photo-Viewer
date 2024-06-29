@@ -3,6 +3,7 @@ import logging
 import random as rd
 import os
 from services.create_api_connection import create_api_connection
+from services.google_cloud_storage import download_blob, list_blobs
 
 
 base_dir = os.getenv('TMP_DIR', '.')
@@ -99,3 +100,16 @@ def pictures_to_display():
                              'year': year})
     with open(f'{base_dir}/tmp_photos/picture_info.json', 'w') as f:
         json.dump(picture_info, f)
+
+
+def pictures_to_display_from_blob():
+    """
+    Downloads pictures from Google Cloud Storage and store them in the
+    tmp_photos folder.
+    """
+    blob_list = list_blobs('pv-cloudstorage')
+    logging.info(f'Blob list : {blob_list}')
+
+    for blob in blob_list:
+        logging.info(f'Downloading {blob.name}')
+        download_blob('pv-cloudstorage', blob.name, 'tmp_photos')
