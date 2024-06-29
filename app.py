@@ -1,9 +1,11 @@
-from dotenv import load_dotenv
 import gradio as gr
 import json
 import logging
 import os
+
+from dotenv import load_dotenv
 from services.choose_random_picture import pictures_to_display
+from services.get_secret import get_secret
 from services.month_decoder import month_decoder
 
 # TO DO
@@ -50,5 +52,5 @@ with gr.Blocks(
 
 iface.launch(server_name="0.0.0.0",
              server_port=8080,
-             auth=("cosynlogergoossaert",
-                   "7&N4Q#EXoTz394z!"))
+             auth=(get_secret("username"),
+                   get_secret("password")))
