@@ -110,6 +110,6 @@ def pictures_to_display_from_blob():
     blob_list = list_blobs('pv-cloudstorage')
     logging.info(f'Blob list : {blob_list}')
 
-    for blob in blob_list:
+    for blob in list(blob_list):
         logging.info(f'Downloading {blob.name}')
         download_blob('pv-cloudstorage', blob.name, 'tmp_photos')
